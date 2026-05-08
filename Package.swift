@@ -30,6 +30,9 @@ let package = Package(
             dependencies: [
                 .target(name: "Scintilla")
             ],
+            resources: [
+                .process("Resources")
+            ],
             cxxSettings: [
                 .define("std=c++17")
             ]
