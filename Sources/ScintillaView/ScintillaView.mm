@@ -1245,9 +1245,7 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor) {
  */
 + (void) initialize {
 	if (self == [ScintillaView class]) {
-        NSBundle *mainBundle = [NSBundle bundleForClass: [ScintillaView class]];
-        NSString *codeEditorBundlePath = [mainBundle pathForResource:@"CodeEditor" ofType:@"bundle"];
-        NSBundle *bundle = [NSBundle bundleWithPath:codeEditorBundlePath];
+		NSBundle *bundle = [NSBundle bundleForClass: [ScintillaView class]];
 
 		NSString *path = [bundle pathForResource: @"mac_cursor_busy" ofType: @"tiff" inDirectory: nil];
 		NSImage *image = [[NSImage alloc] initWithContentsOfFile: path];
@@ -2252,4 +2250,3 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor) {
 //--------------------------------------------------------------------------------------------------
 
 @end
-
