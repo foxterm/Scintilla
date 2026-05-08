@@ -23,7 +23,7 @@ let package = Package(
                 "PositionCache.cxx.orig",
             ],
             resources: [
-                .copy("Resources")
+                .process("Resources")
             ],
             linkerSettings: [
                 .linkedLibrary("c++"),
