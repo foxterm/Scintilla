@@ -1244,27 +1244,31 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor) {
  * Initialize custom cursor.
  */
 + (void) initialize {
-	if (self == [ScintillaView class]) {
-		NSBundle *bundle = [NSBundle bundleForClass: [ScintillaView class]];
+    if (self == [ScintillaView class]) {
+        NSBundle *bundle = nil;
+#ifdef SWIFTPM_MODULE_BUNDLE
+        bundle = SWIFTPM_MODULE_BUNDLE;
+#else
+        bundle = [NSBundle bundleForClass:[ScintillaView class]];
+        NSURL *nestedBundleURL = [bundle URLForResource:@"Scintilla_ScintillaView" withExtension:@"bundle"];
+        if (nestedBundleURL) {
+            bundle = [NSBundle bundleWithURL:nestedBundleURL];
+        }
+#endif
+        NSImage *busyImage = [bundle imageForResource:@"mac_cursor_busy"];
+        if (busyImage) {
+            waitCursor = [[NSCursor alloc] initWithImage:busyImage hotSpot:NSMakePoint(2, 2)];
+        } else {
+            waitCursor = [NSCursor arrowCursor];
+        }
 
-		NSString *path = [bundle pathForResource: @"mac_cursor_busy" ofType: @"tiff" inDirectory: nil];
-		NSImage *image = [[NSImage alloc] initWithContentsOfFile: path];
-		if (image) {
-			waitCursor = [[NSCursor alloc] initWithImage: image hotSpot: NSMakePoint(2, 2)];
-		} else {
-			NSLog(@"Wait cursor is invalid.");
-			waitCursor = [NSCursor arrowCursor];
-		}
-
-		path = [bundle pathForResource: @"mac_cursor_flipped" ofType: @"tiff" inDirectory: nil];
-		image = [[NSImage alloc] initWithContentsOfFile: path];
-		if (image) {
-			reverseArrowCursor = [[NSCursor alloc] initWithImage: image hotSpot: NSMakePoint(15, 2)];
-		} else {
-			NSLog(@"Reverse arrow cursor is invalid.");
-			reverseArrowCursor = [NSCursor arrowCursor];
-		}
-	}
+        NSImage *flippedImage = [bundle imageForResource:@"mac_cursor_flipped"];
+        if (flippedImage) {
+            reverseArrowCursor = [[NSCursor alloc] initWithImage:flippedImage hotSpot:NSMakePoint(15, 2)];
+        } else {
+            reverseArrowCursor = [NSCursor arrowCursor];
+        }
+    }
 }
 
 //--------------------------------------------------------------------------------------------------
