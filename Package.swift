@@ -34,7 +34,13 @@ let package = Package(
                 .process("Resources")
             ],
             cxxSettings: [
-                .define("std=c++17")
+                .headerSearchPath("../Scintilla/include"),
+                .headerSearchPath("../Scintilla/src"),
+            ],
+            linkerSettings: [
+                .linkedLibrary("c++"),
+                .linkedFramework("Cocoa"),
+                .linkedFramework("QuartzCore"),
             ]
         ),
     ],
