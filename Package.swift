@@ -19,7 +19,8 @@ let package = Package(
         .target(
             name: "Scintilla",
             cxxSettings: [
-                .define("std=c++17")
+                .define("std=c++17"),
+                .unsafeFlags(["-fcxx-modules"]),
             ],
             linkerSettings: [
                 .linkedLibrary("c++")
@@ -31,8 +32,7 @@ let package = Package(
                 .target(name: "Scintilla")
             ],
             cxxSettings: [
-                .define("std=c++17"),
-                .unsafeFlags(["-fcxx-modules"]),  // 对应 Podspec 的 compiler_flags
+                .define("std=c++17")
             ]
         ),
     ],
