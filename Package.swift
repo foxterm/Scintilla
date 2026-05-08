@@ -22,10 +22,7 @@ let package = Package(
                 .unsafeFlags(["-fcxx-modules"])
             ],
             linkerSettings: [
-                .linkedLibrary("c++"),
-                .linkedFramework("AppKit"),
-                .linkedFramework("QuartzCore"),
-                .linkedFramework("CoreGraphics"),
+                .linkedLibrary("c++")
             ]
         ),
         .target(
@@ -42,8 +39,9 @@ let package = Package(
             ],
             linkerSettings: [
                 .linkedLibrary("c++"),
-                .linkedFramework("Cocoa"),
+                .linkedFramework("AppKit"),
                 .linkedFramework("QuartzCore"),
+                .linkedFramework("CoreText"),
             ]
         ),
     ],
