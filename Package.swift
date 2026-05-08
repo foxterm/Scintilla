@@ -17,6 +17,11 @@ let package = Package(
     targets: [
         .target(
             name: "ScintillaView",
+            exclude: [
+                "SciTE.properties",
+                "Scintilla.iface",
+                "PositionCache.cxx.orig",
+            ],
             resources: [
                 .process("Resources")
             ],
