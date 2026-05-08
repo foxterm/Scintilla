@@ -9,33 +9,16 @@ let package = Package(
         .iOS(.v17),
     ],
     products: [
-        .library(name: "Scintilla", targets: ["Scintilla"]),
-        .library(name: "ScintillaView", targets: ["ScintillaView"]),
+        .library(name: "ScintillaView", targets: ["ScintillaView"])
     ],
     dependencies: [
 
     ],
     targets: [
         .target(
-            name: "Scintilla",
-            cxxSettings: [
-                .unsafeFlags(["-fcxx-modules"])
-            ],
-            linkerSettings: [
-                .linkedLibrary("c++")
-            ]
-        ),
-        .target(
             name: "ScintillaView",
-            dependencies: [
-                .target(name: "Scintilla")
-            ],
             resources: [
                 .process("Resources")
-            ],
-            cxxSettings: [
-                .headerSearchPath("../Scintilla/include"),
-                .headerSearchPath("../Scintilla/src"),
             ],
             linkerSettings: [
                 .linkedLibrary("c++"),
@@ -43,7 +26,7 @@ let package = Package(
                 .linkedFramework("QuartzCore"),
                 .linkedFramework("CoreText"),
             ]
-        ),
+        )
     ],
     cxxLanguageStandard: .cxx17
 )
