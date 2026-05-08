@@ -19,8 +19,7 @@ let package = Package(
         .target(
             name: "Scintilla",
             cxxSettings: [
-                .define("std=c++17"),
-                .unsafeFlags(["-fcxx-modules"]),
+                .unsafeFlags(["-fcxx-modules"])
             ],
             linkerSettings: [
                 .linkedLibrary("c++")
