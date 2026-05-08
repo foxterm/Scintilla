@@ -1250,15 +1250,17 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor) {
         bundle = SWIFTPM_MODULE_BUNDLE;
 #else
         bundle = [NSBundle bundleForClass:[ScintillaView class]];
-        NSURL *nestedBundleURL = [bundle URLForResource:@"Scintilla_ScintillaView" withExtension:@"bundle"];
-        if (nestedBundleURL) {
-            bundle = [NSBundle bundleWithURL:nestedBundleURL];
+        NSURL *url = [bundle URLForResource:@"Scintilla_ScintillaView" withExtension:@"bundle"];
+        if (url) {
+            bundle = [NSBundle bundleWithURL:url];
         }
 #endif
+
         NSImage *busyImage = [bundle imageForResource:@"mac_cursor_busy"];
         if (busyImage) {
             waitCursor = [[NSCursor alloc] initWithImage:busyImage hotSpot:NSMakePoint(2, 2)];
         } else {
+            NSLog(@"[Scintilla] Error: Cannot find 'mac_cursor_busy' in Assets.xcassets");
             waitCursor = [NSCursor arrowCursor];
         }
 
@@ -1266,6 +1268,7 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor) {
         if (flippedImage) {
             reverseArrowCursor = [[NSCursor alloc] initWithImage:flippedImage hotSpot:NSMakePoint(15, 2)];
         } else {
+            NSLog(@"[Scintilla] Error: Cannot find 'mac_cursor_flipped' in Assets.xcassets");
             reverseArrowCursor = [NSCursor arrowCursor];
         }
     }
