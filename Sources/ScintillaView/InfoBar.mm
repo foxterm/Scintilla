@@ -78,27 +78,34 @@
 @implementation InfoBar
 
 - (instancetype) initWithFrame: (NSRect) frame {
-	self = [super initWithFrame: frame];
-	if (self) {
-		NSBundle *bundle = [NSBundle bundleForClass: [InfoBar class]];
+    self = [super initWithFrame: frame];
+    if (self) {
+        NSBundle *bundle = nil;
+#ifdef SWIFTPM_MODULE_BUNDLE
+        bundle = SWIFTPM_MODULE_BUNDLE;
+#else
+        bundle = [NSBundle bundleForClass:[self class]];
+        NSURL *url = [bundle URLForResource:@"Scintilla_ScintillaView" withExtension:@"bundle"];
+        if (url) {
+            bundle = [NSBundle bundleWithURL:url];
+        }
+#endif
 
-		NSString *path = [bundle pathForResource: @"info_bar_bg" ofType: @"tiff" inDirectory: nil];
-		// macOS 10.13 introduced bug where pathForResource: fails on SMB share
-		if (path == nil) {
-			path = [bundle.bundlePath stringByAppendingPathComponent: @"Resources/info_bar_bg.tiff"];
-		}
-		mBackground = [[NSImage alloc] initWithContentsOfFile: path];
-		if (!mBackground.valid)
-			NSLog(@"Background image for info bar is invalid.");
+        mBackground = [bundle imageForResource:@"info_bar_bg"];
 
-		mScaleFactor = 1.0;
-		mCurrentCaretX = 0;
-		mCurrentCaretY = 0;
-		[self createItems];
-		self.clipsToBounds = TRUE;
-	}
-	return self;
+        if (!mBackground || !mBackground.isValid) {
+            NSLog(@"[InfoBar] Error: Background image 'info_bar_bg' not found in Assets.");
+        }
+
+        mScaleFactor = 1.0;
+        mCurrentCaretX = 0;
+        mCurrentCaretY = 0;
+        [self createItems];
+        self.clipsToBounds = TRUE;
+    }
+    return self;
 }
+
 
 //--------------------------------------------------------------------------------------------------
 
